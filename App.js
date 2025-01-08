@@ -10,13 +10,19 @@ const App = () => {
   const fetchQuote = async () => {
     try {
       const response = await fetch("https://api.quotable.io/random");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
       setQuote(data.content);
       setAuthor(data.author);
     } catch (error) {
-      console.error("Error fetching quote:", error);
+      console.error("Error fetching the quote:", error);
+      setQuote("An error occurred while fetching the quote.");
+      setAuthor("");
     }
   };
+  
 
   useEffect(() => {
     fetchQuote();
